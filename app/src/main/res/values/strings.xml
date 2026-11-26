@@ -1,0 +1,279 @@
+<resources>
+    <string name="app_name">ETERNIA AI RPG</string>
+    <string name="app_short_name">ETERNIA</string>
+    <string name="app_description">AI-powered RPG companion with personas, characters, and infinite adventures</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_library">Bibliothèque</string>
+    <string name="nav_discover">Découvrir</string>
+    <string name="nav_rpg">RPG</string>
+    <string name="nav_settings">Paramètres</string>
+    <string name="nav_personas">Personas</string>
+    <string name="nav_characters">Personnages</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_worlds">Mondes</string>
+    <string name="nav_reader">Lecteur</string>
+    <string name="nav_visual_novel">Visual Novel</string>
+
+    <!-- Actions -->
+    <string name="action_new_persona">Nouvelle Persona</string>
+    <string name="action_new_character">Nouveau Personnage</string>
+    <string name="action_new_adventure">Nouvelle Aventure</string>
+    <string name="action_import">Importer</string>
+    <string name="action_export">Exporter</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_save">Sauvegarder</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_edit">Modifier</string>
+    <string name="action_search">Rechercher</string>
+    <string name="action_filter">Filtrer</string>
+    <string name="action_sort">Trier</string>
+    <string name="action_share">Partager</string>
+    <string name="action_copy">Copier</string>
+    <string name="action_duplicate">Dupliquer</string>
+    <string name="action_favorite">Favori</string>
+    <string name="action_unfavorite">Retirer des favoris</string>
+
+    <!-- Screens -->
+    <string name="screen_home">Accueil</string>
+    <string name="screen_library">Bibliothèque</string>
+    <string name="screen_discover">Découvrir</string>
+    <string name="screen_rpg_dashboard">Tableau de bord RPG</string>
+    <string name="screen_settings">Paramètres</string>
+    <string name="screen_persona_list">Mes Personas</string>
+    <string name="screen_persona_editor">Éditeur de Persona</string>
+    <string name="screen_persona_detail">Détails Persona</string>
+    <string name="screen_character_list">Mes Personnages</string>
+    <string name="screen_character_editor">Éditeur de Personnage</string>
+    <string name="screen_character_detail">Détails Personnage</string>
+    <string name="screen_character_sheet">Fiche de Personnage</string>
+    <string name="screen_inventory">Inventaire</string>
+    <string name="screen_skills">Compétences</string>
+    <string name="screen_chat_list">Conversations</string>
+    <string name="screen_chat_session">Session de Chat</string>
+    <string name="screen_group_chat">Chat de Groupe</string>
+    <string name="screen_world_list">Mondes</string>
+    <string name="screen_world_editor">Éditeur de Monde</string>
+    <string name="screen_lorebook_list">Lorebooks</string>
+    <string name="screen_lorebook_editor">Éditeur de Lorebook</string>
+    <string name="screen_novel_list">Romans</string>
+    <string name="screen_novel_reader">Lecteur</string>
+    <string name="screen_novel_editor">Éditeur de Roman</string>
+    <string name="screen_visual_novel_list">Visual Novels</string>
+    <string name="screen_visual_novel_player">Joueur VN</string>
+    <string name="screen_visual_novel_editor">Éditeur VN</string>
+
+    <!-- Settings -->
+    <string name="settings_ai_providers">Fournisseurs IA</string>
+    <string name="settings_api_keys">Clés API</string>
+    <string name="settings_models">Modèles</string>
+    <string name="settings_profiles">Profils</string>
+    <string name="settings_appearance">Apparence</string>
+    <string name="settings_theme">Thème</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_data">Données</string>
+    <string name="settings_backup_restore">Sauvegarde et Restauration</string>
+    <string name="settings_import_export">Import/Export</string>
+    <string name="settings_privacy">Confidentialité</string>
+    <string name="settings_about">À propos</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_build_number">Numéro de build</string>
+    <string name="settings_licenses">Licences open source</string>
+    <string name="settings_privacy_policy">Politique de confidentialité</string>
+    <string name="settings_github">GitHub</string>
+
+    <!-- AI Providers -->
+    <string name="ai_provider_gemini">Google Gemini</string>
+    <string name="ai_provider_deepseek">DeepSeek</string>
+    <string name="ai_provider_openai">OpenAI</string>
+    <string name="ai_provider_anthropic">Anthropic</string>
+    <string name="ai_provider_openrouter">OpenRouter</string>
+    <string name="ai_provider_custom">Personnalisé</string>
+    <string name="ai_provider_add">Ajouter un fournisseur</string>
+    <string name="ai_provider_edit">Modifier le fournisseur</string>
+    <string name="ai_provider_delete">Supprimer le fournisseur</string>
+    <string name="ai_provider_test">Tester la connexion</string>
+    <string name="ai_provider_models">Modèles disponibles</string>
+    <string name="ai_provider_profile_routing">Routage par profil</string>
+    <string name="ai_provider_cost_estimation">Estimation des coûts</string>
+    <string name="ai_provider_free_tier">Modèles gratuits</string>
+
+    <!-- Profiles -->
+    <string name="profile_roleplay">Roleplay</string>
+    <string name="profile_chat">Chat</string>
+    <string name="profile_creative">Créatif</string>
+    <string name="profile_analysis">Analyse</string>
+    <string name="profile_coding">Code</string>
+    <string name="profile_image">Image</string>
+    <string name="profile_tts">TTS</string>
+    <string name="profile_transcription">Transcription</string>
+    <string name="profile_test">Test</string>
+
+    <!-- Personas -->
+    <string name="persona_name">Nom</string>
+    <string name="persona_description">Description</string>
+    <string name="persona_personality">Personnalité</string>
+    <string name="persona_first_message">Premier message</string>
+    <string name="persona_example_dialogue">Dialogues d\'exemple</string>
+    <string name="persona_scenario">Scénario</string>
+    <string name="persona_tags">Tags</string>
+    <string name="persona_creator_notes">Notes du créateur</string>
+    <string name="persona_avatar">Avatar</string>
+    <string name="persona_visibility">Visibilité</string>
+    <string name="persona_public">Public</string>
+    <string name="persona_private">Privé</string>
+    <string name="persona_nsfw">NSFW</string>
+    <string name="persona_favorite">Favori</string>
+    <string name="persona_model">Modèle</string>
+    <string name="persona_temperature">Température</string>
+    <string name="persona_max_tokens">Max tokens</string>
+    <string name="persona_system_prompt">Prompt système</string>
+    <string name="persona_advanced_settings">Paramètres avancés</string>
+
+    <!-- Characters -->
+    <string name="character_name">Nom</string>
+    <string name="character_description">Description</string>
+    <string name="character_personality">Personnalité</string>
+    <string name="character_first_message">Premier message</string>
+    <string name="character_example_dialogue">Dialogues d\'exemple</string>
+    <string name="character_scenario">Scénario</string>
+    <string name="character_avatar">Avatar</string>
+    <string name="character_tags">Tags</string>
+    <string name="character_creator">Créateur</string>
+    <string name="character_version">Version</string>
+    <string name="character_creator_notes">Notes du créateur</string>
+    <string name="character_nsfw">NSFW</string>
+    <string name="character_favorite">Favori</string>
+    <string name="character_group">Groupe</string>
+    <string name="character_depth">Profondeur</string>
+    <string name="character_scan_depth">Profondeur du scan</string>
+
+    <!-- RPG -->
+    <string name="rpg_strength">Force</string>
+    <string name="rpg_dexterity">Dextérité</string>
+    <string name="rpg_constitution">Constitution</string>
+    <string name="rpg_intelligence">Intelligence</string>
+    <string name="rpg_wisdom">Sagesse</string>
+    <string name="rpg_charisma">Charisme</string>
+    <string name="rpg_luck">Chance</string>
+    <string name="rpg_hp">PV</string>
+    <string name="rpg_mp">PM</string>
+    <string name="rpg_ac">CA</string>
+    <string name="rpg_initiative">Initiative</string>
+    <string name="rpg_speed">Vitesse</string>
+    <string name="rpg_level">Niveau</string>
+    <string name="rpg_xp">XP</string>
+    <string name="rpg_class">Classe</string>
+    <string name="rpg_race">Race</string>
+    <string name="rpg_background">Historique</string>
+    <string name="rpg_alignment">Alignement</string>
+    <string name="rpg_inventory">Inventaire</string>
+    <string name="rpg_skills">Compétences</string>
+    <string name="rpg_quests">Quêtes</string>
+    <string name="rpg_combat">Combat</string>
+    <string name="rpg_npcs">PNJs</string>
+    <string name="rpg_locations">Lieux</string>
+    <string name="rpg_world">Monde</string>
+
+    <!-- Memory -->
+    <string name="memory_summaries">Résumés</string>
+    <string name="memory_recollections">Souvenirs</string>
+    <string name="memory_context_packs">Packs de contexte</string>
+    <string name="memory_generate_summary">Générer un résumé</string>
+    <string name="memory_extract_facts">Extraire les faits</string>
+    <string name="memory_vector_search">Recherche vectorielle</string>
+
+    <!-- Import/Export -->
+    <string name="import_sillytavern">Importer depuis SillyTavern</string>
+    <string name="import_character_card">Importer Character Card</string>
+    <string name="import_lorebook">Importer Lorebook</string>
+    <string name="import_conversation">Importer Conversation</string>
+    <string name="import_zip">Importer ZIP</string>
+    <string name="import_png">Importer PNG (avec métadonnées)</string>
+    <string name="export_character_card">Exporter Character Card</string>
+    <string name="export_lorebook">Exporter Lorebook</string>
+    <string name="export_conversation">Exporter Conversation</string>
+    <string name="export_backup">Exporter Sauvegarde complète</string>
+    <string name="export_format_v1">Format V1</string>
+    <string name="export_format_v2">Format V2</string>
+    <string name="export_format_v3">Format V3</string>
+    <string name="export_format_sillytavern">Format SillyTavern</string>
+
+    <!-- Errors & Messages -->
+    <string name="error_network">Erreur réseau</string>
+    <string name="error_api_key">Clé API invalide ou manquante</string>
+    <string name="error_rate_limit">Limite de taux atteinte</string>
+    <string name="error_quota_exceeded">Quota dépassé</string>
+    <string name="error_model_not_found">Modèle non trouvé</string>
+    <string name="error_server">Erreur serveur</string>
+    <string name="error_timeout">Délai d\'attente dépassé</string>
+    <string name="error_unknown">Erreur inconnue</string>
+    <string name="error_import_failed">Échec de l\'importation</string>
+    <string name="error_export_failed">Échec de l\'exportation</string>
+    <string name="error_database">Erreur de base de données</string>
+    <string name="error_permission">Permission refusée</string>
+    <string name="error_file_not_found">Fichier non trouvé</string>
+    <string name="error_invalid_format">Format invalide</string>
+
+    <string name="success_imported">Importé avec succès</string>
+    <string name="success_exported">Exporté avec succès</string>
+    <string name="success_saved">Sauvegardé</string>
+    <string name="success_deleted">Supprimé</string>
+    <string name="success_copied">Copié dans le presse-papiers</string>
+    <string name="success_backup_created">Sauvegarde créée</string>
+    <string name="success_backup_restored">Sauvegarde restaurée</string>
+
+    <string name="empty_state_no_data">Aucune donnée</string>
+    <string name="empty_state_no_conversations">Aucune conversation</string>
+    <string name="empty_state_no_personas">Aucune persona</string>
+    <string name="empty_state_no_characters">Aucun personnage</string>
+    <string name="empty_state_no_novels">Aucun roman</string>
+    <string name="empty_state_no_visual_novels">Aucun Visual Novel</string>
+    <string name="empty_state_no_worlds">Aucun monde</string>
+    <string name="empty_state_start_creating">Commencez à créer !</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_confirm_delete">Êtes-vous sûr de vouloir supprimer ?</string>
+    <string name="dialog_confirm_delete_title">Confirmer la suppression</string>
+    <string name="dialog_confirm_discard">Annuler les modifications ?</string>
+    <string name="dialog_confirm_discard_title">Modifications non sauvegardées</string>
+    <string name="dialog_enter_name">Entrer un nom</string>
+    <string name="dialog_enter_api_key">Entrer la clé API</string>
+    <string name="dialog_select_model">Sélectionner un modèle</string>
+    <string name="dialog_select_file">Sélectionner un fichier</string>
+
+    <!-- Accessibility -->
+    <string name="a11y_navigate_home">Aller à l\'accueil</string>
+    <string name="a11y_open_settings">Ouvrir les paramètres</string>
+    <string name="a11y_new_persona">Créer une nouvelle persona</string>
+    <string name="a11y_new_character">Créer un nouveau personnage</string>
+    <string name="a11y_start_chat">Démarrer une conversation</string>
+    <string name="a11y_persona_avatar">Avatar de la persona</string>
+    <string name="a11y_character_avatar">Avatar du personnage</string>
+    <string name="a11y_favorite">Marquer comme favori</string>
+    <string name="a11y_unfavorite">Retirer des favoris</string>
+    <string name="a11y_delete">Supprimer</string>
+    <string name="a11y_edit">Modifier</string>
+    <string name="a11y_share">Partager</string>
+
+    <!-- Tooltips -->
+    <string name="tooltip_temperature">Contrôle la créativité (0.0 = déterministe, 2.0 = très créatif)</string>
+    <string name="tooltip_top_p">Échantillonnage nucleus (0.0 - 1.0)</string>
+    <string name="tooltip_top_k">Limite les k tokens les plus probables</string>
+    <string name="tooltip_max_tokens">Nombre maximum de tokens à générer</string>
+    <string name="tooltip_presence_penalty">Pénalise les tokens déjà utilisés</string>
+    <string name="tooltip_frequency_penalty">Pénalise la répétition de tokens</string>
+    <string name="tooltip_context_length">Longueur maximale du contexte</string>
+    <string name="tooltip_system_prompt">Instructions système pour l\'IA</string>
+
+    <!-- About -->
+    <string name="about_title">À propos d\'ETERNIA AI RPG</string>
+    <string name="about_description">Votre compagnon RPG alimenté par l\'IA. Créez des personas, des personnages, des mondes et vivez des aventures infinies.</string>
+    <string name="about_privacy_first">Confidentialité avant tout : aucune télémétrie, aucune donnée envoyée sans votre consentement.</string>
+    <string name="about_offline_first">Fonctionne hors ligne : vos données restent sur votre appareil.</string>
+    <string name="about_open_source">Open source sous licence MIT.</string>
+    <string name="about_contributors">Contributeurs</string>
+    <string name="about_libraries">Bibliothèques utilisées</string>
+</resources>
