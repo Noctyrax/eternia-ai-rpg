@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fantasy Theme Colors - Dark Mode Primary -->
+    <color name="primary">#FFD700</color>
+    <color name="primary_variant">#FFA500</color>
+    <color name="on_primary">#1A1A2E</color>
+    <color name="primary_container">#3D3D1A</color>
+    <color name="on_primary_container">#FFD700</color>
+
+    <color name="secondary">#DAA520</color>
+    <color name="secondary_variant">#B8860B</color>
+    <color name="on_secondary">#1A1A2E</color>
+    <color name="secondary_container">#3D3D1A</color>
+    <color name="on_secondary_container">#DAA520</color>
+
+    <color name="tertiary">#FF6B35</color>
+    <color name="tertiary_variant">#E55A2B</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="tertiary_container">#4A1A0A</color>
+    <color name="on_tertiary_container">#FF6B35</color>
+
+    <!-- Surface Colors -->
+    <color name="surface">#1E1E2E</color>
+    <color name="surface_variant">#2A2A3E</color>
+    <color name="on_surface">#F5F5F0</color>
+    <color name="on_surface_variant">#C9C9B8</color>
+
+    <!-- Background -->
+    <color name="background">#12121A</color>
+    <color name="on_background">#F5F5F0</color>
+
+    <!-- Error -->
+    <color name="error">#FF6B6B</color>
+    <color name="error_container">#4A1A1A</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="on_error_container">#FF6B6B</color>
+
+    <!-- Outline -->
+    <color name="outline">#4A4A5A</color>
+    <color name="outline_variant">#3A3A4A</color>
+
+    <!-- Scrim & Shadow -->
+    <color name="scrim">#000000</color>
+    <color name="shadow">#000000</color>
+
+    <!-- Inverse -->
+    <color name="inverse_surface">#F5F5F0</color>
+    <color name="inverse_on_surface">#1A1A2E</color>
+    <color name="inverse_primary">#B8860B</color>
+
+    <!-- Fantasy Specific Colors -->
+    <color name="fantasy_gold">#FFD700</color>
+    <color name="fantasy_gold_dark">#B8860B</color>
+    <color name="fantasy_gold_light">#FFF8DC</color>
+    <color name="fantasy_parchment">#F5F5F0</color>
+    <color name="fantasy_parchment_dark">#E8E8D0</color>
+    <color name="fantasy_navy">#1A1A2E</color>
+    <color name="fantasy_navy_light">#2A2A3E</color>
+    <color name="fantasy_crimson">#DC143C</color>
+    <color name="fantasy_emerald">#2E8B57</color>
+    <color name="fantasy_sapphire">#4169E1</color>
+    <color name="fantasy_amethyst">#9932CC</color>
+    <color name="fantasy_obsidian">#0D0D1A</color>
+    <color name="fantasy_mithral">#C0C0C0</color>
+    <color name="fantasy_bronze">#CD7F32</color>
+    <color name="fantasy_copper">#B87333</color>
+
+    <!-- Rarity Colors -->
+    <color name="rarity_common">#9E9E9E</color>
+    <color name="rarity_uncommon">#4CAF50</color>
+    <color name="rarity_rare">#2196F3</color>
+    <color name="rarity_epic">#9C27B0</color>
+    <color name="rarity_legendary">#FF9800</color>
+    <color name="rarity_mythic">#E91E63</color>
+    <color name="rarity_artifact">#FFD700</color>
+    <color name="rarity_relic">#8B0000</color>
+
+    <!-- Element Colors -->
+    <color name="element_fire">#FF4500</color>
+    <color name="element_water">#00BFFF</color>
+    <color name="element_earth">#8B4513</color>
+    <color name="element_air">#87CEEB</color>
+    <color name="element_light">#FFFFE0</color>
+    <color name="element_dark">#2F2F4F</color>
+    <color name="element_arcane">#DA70D6</color>
+    <color name="element_void">#1A0A2E</color>
+
+    <!-- Status Colors -->
+    <color name="status_online">#4CAF50</color>
+    <color name="status_away">#FF9800</color>
+    <color name="status_busy">#F44336</color>
+    <color name="status_offline">#9E9E9E</color>
+
+    <!-- UI Accent Colors -->
+    <color name="accent_gold">#FFD700</color>
+    <color name="accent_crimson">#DC143C</color>
+    <color name="accent_emerald">#2E8B57</color>
+    <color name="accent_sapphire">#4169E1</color>
+    <color name="accent_amethyst">#9932CC</color>
+
+    <!-- Ripple -->
+    <color name="ripple_color">#3D3D1A</color>
+
+    <!-- Transparent -->
+    <color name="transparent">#00000000</color>
+    <color name="overlay_light">#80000000</color>
+    <color name="overlay_dark">#CC000000</color>
+    <color name="overlay_gold">#40FFD700</color>
+
+    <!-- Divider -->
+    <color name="divider_color">#3A3A4A</color>
+
+    <!-- Selection -->
+    <color name="selection_handle_color">#FFD700</color>
+
+    <!-- Link -->
+    <color name="link_color">#FFD700</color>
+    <color name="link_color_pressed">#FFA500</color>
+
+    <!-- Disabled -->
+    <color name="disabled_color">#4A4A5A</color>
+</resources>
