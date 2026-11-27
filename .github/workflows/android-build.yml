@@ -12,6 +12,7 @@ env:
   GRADLE_VERSION: "8.5"
   ANDROID_API_LEVEL: "34"
   ANDROID_BUILD_TOOLS: "34.0.0"
+  ANDROID_CMDLINE_TOOLS_VERSION: "12266719"
 
 jobs:
   build-debug:
@@ -35,35 +36,127 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Install Android SDK and accept licenses
-        uses: android-actions/setup-android@v3
-        with:
-          accept-android-sdk-licenses: true
-          packages: |
-            platforms;android-${{ env.ANDROID_API_LEVEL }}
-            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
-
-      - name: Restore a valid Gradle wrapper
+        shell: bash
         run: |
           set -euo pipefail
+          LOG="$RUNNER_TEMP/android-sdk-install.log"
+          report_error() {
+            STATUS=$?
+            if [[ $STATUS -ne 0 ]]; then
+              {
+                echo '## Échec installation Android SDK'
+                echo '```text'
+                tail -n 100 "$LOG" 2>/dev/null || true
+                echo '```'
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          }
+          trap report_error EXIT
+          export ANDROID_HOME="${ANDROID_HOME:-$RUNNER_TEMP/android-sdk}"
+          export ANDROID_SDK_ROOT="$ANDROID_HOME"
+          {
+            echo "ANDROID_HOME=$ANDROID_HOME"
+            echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+            echo "$ANDROID_HOME/cmdline-tools/latest/bin"
+            echo "$ANDROID_HOME/platform-tools"
+          } >> "$GITHUB_ENV"
+          {
+            echo "$ANDROID_HOME/cmdline-tools/latest/bin"
+            echo "$ANDROID_HOME/platform-tools"
+          } >> "$GITHUB_PATH"
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          TOOLS_ZIP="$RUNNER_TEMP/android-commandline-tools.zip"
+          curl --fail --location --retry 3 \
+            "https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_CMDLINE_TOOLS_VERSION}_latest.zip" \
+            --output "$TOOLS_ZIP"
+          UNPACK_DIR="$RUNNER_TEMP/android-commandline-tools"
+          mkdir -p "$UNPACK_DIR"
+          unzip -q "$TOOLS_ZIP" -d "$UNPACK_DIR"
+          mkdir -p "$ANDROID_HOME/cmdline-tools/latest"
+          cp -R "$UNPACK_DIR/cmdline-tools/." "$ANDROID_HOME/cmdline-tools/latest/"
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          {
+            yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses > /dev/null || true
+            "$SDKMANAGER" --sdk_root="$ANDROID_HOME" \
+              "platform-tools" \
+              "platforms;android-${ANDROID_API_LEVEL}" \
+              "build-tools;${ANDROID_BUILD_TOOLS}"
+          } 2>&1 | tee "$LOG"
+          trap - EXIT
+
+      - name: Restore a valid Gradle wrapper
+        shell: bash
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/gradle-wrapper.log"
+          report_error() {
+            STATUS=$?
+            if [[ $STATUS -ne 0 ]]; then
+              {
+                echo '## Échec initialisation Gradle'
+                echo '```text'
+                tail -n 120 "$LOG" 2>/dev/null || true
+                echo '```'
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          }
+          trap report_error EXIT
           BOOTSTRAP_DIR="$RUNNER_TEMP/gradle-wrapper-bootstrap"
           mkdir -p "$BOOTSTRAP_DIR"
-          gradle -p "$BOOTSTRAP_DIR" wrapper \
-            --gradle-version "$GRADLE_VERSION" \
-            --distribution-type bin \
-            --no-daemon
-          cp "$BOOTSTRAP_DIR/gradlew" ./gradlew
-          cp "$BOOTSTRAP_DIR/gradlew.bat" ./gradlew.bat
-          mkdir -p gradle/wrapper
-          cp "$BOOTSTRAP_DIR/gradle/wrapper/gradle-wrapper.jar" gradle/wrapper/gradle-wrapper.jar
-          cp "$BOOTSTRAP_DIR/gradle/wrapper/gradle-wrapper.properties" gradle/wrapper/gradle-wrapper.properties
-          chmod +x ./gradlew
-          ./gradlew --version --no-daemon
+          {
+            gradle -p "$BOOTSTRAP_DIR" wrapper \
+              --gradle-version "$GRADLE_VERSION" \
+              --distribution-type bin \
+              --no-daemon
+            cp "$BOOTSTRAP_DIR/gradlew" ./gradlew
+            cp "$BOOTSTRAP_DIR/gradlew.bat" ./gradlew.bat
+            mkdir -p gradle/wrapper
+            cp "$BOOTSTRAP_DIR/gradle/wrapper/gradle-wrapper.jar" gradle/wrapper/gradle-wrapper.jar
+            cp "$BOOTSTRAP_DIR/gradle/wrapper/gradle-wrapper.properties" gradle/wrapper/gradle-wrapper.properties
+            chmod +x ./gradlew
+            ./gradlew --version --no-daemon
+          } 2>&1 | tee "$LOG"
+          trap - EXIT
 
       - name: Run available unit tests
-        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
+        shell: bash
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/unit-tests.log"
+          report_error() {
+            STATUS=$?
+            if [[ $STATUS -ne 0 ]]; then
+              {
+                echo '## Échec configuration Gradle ou tests unitaires'
+                echo '```text'
+                tail -n 180 "$LOG" 2>/dev/null || true
+                echo '```'
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          }
+          trap report_error EXIT
+          ./gradlew testDebugUnitTest --no-daemon --stacktrace 2>&1 | tee "$LOG"
+          trap - EXIT
 
       - name: Compile debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        shell: bash
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/assemble-debug.log"
+          report_error() {
+            STATUS=$?
+            if [[ $STATUS -ne 0 ]]; then
+              {
+                echo '## Échec compilation APK debug'
+                echo '```text'
+                tail -n 180 "$LOG" 2>/dev/null || true
+                echo '```'
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          }
+          trap report_error EXIT
+          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee "$LOG"
+          trap - EXIT
 
       - name: Verify APK integrity and signature
         shell: bash
