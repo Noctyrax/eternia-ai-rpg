@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("kotlin-parcelize")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
@@ -63,11 +63,10 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0")
-    implementation("coil3:coil-compose:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("com.github.chrisbanes:accompanist-flowlayout:0.32.0")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.8")
 
-    // Testing
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("io.mockk:mockk:1.13.12")
     testImplementation("androidx.compose.ui:ui-test-junit4")
