@@ -19,7 +19,6 @@ jobs:
     name: Test and build debug APK
     runs-on: ubuntu-latest
     timeout-minutes: 60
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -39,19 +38,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          LOG="$RUNNER_TEMP/android-sdk-install.log"
-          report_error() {
-            STATUS=$?
-            if [[ $STATUS -ne 0 ]]; then
-              {
-                echo '## Échec installation Android SDK'
-                echo '```text'
-                tail -n 100 "$LOG" 2>/dev/null || true
-                echo '```'
-              } >> "$GITHUB_STEP_SUMMARY"
-            fi
-          }
-          trap report_error EXIT
           export ANDROID_HOME="${ANDROID_HOME:-$RUNNER_TEMP/android-sdk}"
           export ANDROID_SDK_ROOT="$ANDROID_HOME"
           {
@@ -79,26 +65,12 @@ jobs:
               "platform-tools" \
               "platforms;android-${ANDROID_API_LEVEL}" \
               "build-tools;${ANDROID_BUILD_TOOLS}"
-          } 2>&1 | tee "$LOG"
-          trap - EXIT
+          } 2>&1 | tee "$RUNNER_TEMP/android-sdk-install.log"
 
       - name: Restore a valid Gradle wrapper
         shell: bash
         run: |
           set -euo pipefail
-          LOG="$RUNNER_TEMP/gradle-wrapper.log"
-          report_error() {
-            STATUS=$?
-            if [[ $STATUS -ne 0 ]]; then
-              {
-                echo '## Échec initialisation Gradle'
-                echo '```text'
-                tail -n 120 "$LOG" 2>/dev/null || true
-                echo '```'
-              } >> "$GITHUB_STEP_SUMMARY"
-            fi
-          }
-          trap report_error EXIT
           BOOTSTRAP_DIR="$RUNNER_TEMP/gradle-wrapper-bootstrap"
           mkdir -p "$BOOTSTRAP_DIR"
           {
@@ -113,48 +85,19 @@ jobs:
             cp "$BOOTSTRAP_DIR/gradle/wrapper/gradle-wrapper.properties" gradle/wrapper/gradle-wrapper.properties
             chmod +x ./gradlew
             ./gradlew --version --no-daemon
-          } 2>&1 | tee "$LOG"
-          trap - EXIT
+          } 2>&1 | tee "$RUNNER_TEMP/gradle-wrapper.log"
 
       - name: Run available unit tests
         shell: bash
         run: |
-          set -euo pipefail
-          LOG="$RUNNER_TEMP/unit-tests.log"
-          report_error() {
-            STATUS=$?
-            if [[ $STATUS -ne 0 ]]; then
-              {
-                echo '## Échec configuration Gradle ou tests unitaires'
-                echo '```text'
-                tail -n 180 "$LOG" 2>/dev/null || true
-                echo '```'
-              } >> "$GITHUB_STEP_SUMMARY"
-            fi
-          }
-          trap report_error EXIT
-          ./gradlew testDebugUnitTest --no-daemon --stacktrace 2>&1 | tee "$LOG"
-          trap - EXIT
+          set -o pipefail
+          ./gradlew testDebugUnitTest --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/unit-tests.log"
 
       - name: Compile debug APK
         shell: bash
         run: |
-          set -euo pipefail
-          LOG="$RUNNER_TEMP/assemble-debug.log"
-          report_error() {
-            STATUS=$?
-            if [[ $STATUS -ne 0 ]]; then
-              {
-                echo '## Échec compilation APK debug'
-                echo '```text'
-                tail -n 180 "$LOG" 2>/dev/null || true
-                echo '```'
-              } >> "$GITHUB_STEP_SUMMARY"
-            fi
-          }
-          trap report_error EXIT
-          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee "$LOG"
-          trap - EXIT
+          set -o pipefail
+          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/assemble-debug.log"
 
       - name: Verify APK integrity and signature
         shell: bash
@@ -198,3 +141,26 @@ jobs:
             **/build/test-results/**
           if-no-files-found: ignore
           retention-days: 14
+
+      - name: Expose failure diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          logs = [
+              "android-sdk-install.log",
+              "gradle-wrapper.log",
+              "unit-tests.log",
+              "assemble-debug.log",
+          ]
+          temp = Path(__import__("os").environ["RUNNER_TEMP"])
+          for name in logs:
+              path = temp / name
+              if not path.exists():
+                  continue
+              lines = path.read_text(errors="replace").splitlines()
+              excerpt = "\n".join(lines[-100:])
+              escaped = excerpt.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+              print(f"::error::{name}%0A{escaped}")
+          PY
