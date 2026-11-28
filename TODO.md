@@ -1,6 +1,14 @@
 # TODO — ETERNIA AI RPG
 
-## Étape 5 — Chat et fournisseurs IA (priorité immédiate)
+## Étape 4 — Personas et personnages (en cours)
+
+- [ ] Implémenter PersonaManager : CRUD complet, duplication, archivage, sélection par conversation
+- [ ] Implémenter CharacterManager : CRUD complet, duplication, versions
+- [ ] Gestion des images/avatars
+- [ ] Variables de roleplay {{user}} compatibles
+- [ ] Aperçu du prompt injecté pour Persona
+
+## Étape 5 — Chat et fournisseurs IA (priorité)
 
 - [ ] Implémenter AiProviderManager (abstraction multi-fournisseurs)
 - [ ] Implémenter fournisseur Gemini
@@ -33,17 +41,8 @@
 
 ## Étape 3 — Données locales (compléter)
 
-- [ ] Ajouter les DAO manquants (ReaderDao, VisualNovelDao, CompanionDao, MediaDao, SettingsDao, ImportExportDao)
-- [ ] Ajouter les entités manquantes (NovelEntity, VisualNovelEntity, etc.)
 - [ ] Implémenter PreferencesManager avec DataStore chiffré
 - [ ] Implémenter KeyManager avec Android Keystore
-
-## Étape 4 — Personas et personnages
-
-- [ ] CRUD complet dans PersonaManager
-- [ ] CRUD complet dans CharacterManager
-- [ ] Gestion des images/avatars
-- [ ] Duplication et archivage de Personas
 
 ## Étape 8 — Mémoire
 
