@@ -209,8 +209,8 @@ fun String.toUriSafe(): Result<Uri> = Result.runCatching { toUri() }
 fun Uri.getFileName(context: Context): String? {
     return context.contentResolver.query(this, null, null, null, null)?.use { cursor ->
         if (cursor.moveToFirst()) {
-            val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
-            if (nameIndex >= 0) cursor.getString(nameIndex) else null
+            val nameIndex = cursor.getColumnIndexOrThrow(android.provider.OpenableColumns.DISPLAY_NAME)
+            cursor.getString(nameIndex)
         } else null
     }
 }
