@@ -1,284 +1,199 @@
 package com.eternia.ai.rpg.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
-import com.eternia.ai.rpg.designsystem.components.*
-import com.eternia.ai.rpg.designsystem.theme.*
-import com.eternia.ai.rpg.ui.viewmodel.MainViewModel
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.navController
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
+import com.eternia.ai.rpg.designsystem.theme.EterniaTheme
+import com.eternia.ai.rpg.designsystem.theme.FantasySpacing
 
 @Composable
 fun HomeScreen(
-    viewModel: MainViewModel = viewModel(),
-    navController: androidx.navigation.NavHostController = rememberNavController()
+    onPersonaClick: (String) -> Unit = {},
+    onCharacterClick: (String) -> Unit = {},
+    onConversationClick: (String) -> Unit = {},
+    onNovelClick: (String) -> Unit = {},
+    onNewPersona: () -> Unit = {},
+    onNewCharacter: () -> Unit = {},
+    onNewConversation: () -> Unit = {}
 ) {
-    val recentConversations by viewModel.recentConversationsFlow.collectAsStateWithLifecycle()
-    val recentPersonas by viewModel.recentPersonasFlow.collectAsStateWithLifecycle()
-    val recentCharacters by viewModel.recentCharactersFlow.collectAsStateWithLifecycle()
-    val recentNovels by viewModel.recentNovelsFlow.collectAsStateWithLifecycle()
-    val recentVisualNovels by viewModel.recentVisualNovelsFlow.collectAsStateWithLifecycle()
-    val recentWorlds by viewModel.recentWorldsFlow.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoadingFlow.collectAsStateWithLifecycle()
+    val recentConversations by remember { mutableStateOf(listOf<String>()) }
+    val recentPersonas by remember { mutableStateOf(listOf<String>()) }
 
-    Column(
-        modifier = androidx.compose.foundation.layout.Modifier
-            .fillMaxSize()
-            .padding(FantasySpacing.md),
-        verticalArrangement = Arrangement.spacedBy(FantasySpacing.lg)
-    ) {
-        // Header
-        Row(
-            modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-        ) {
-            Text(
-                text = "ETERNIA AI RPG",
-                style = FantasyTypography.headlineMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+    EterniaTheme {
+        Column(modifier = Modifier.fillMaxSize()) {
+            androidx.compose.material3.TopAppBar(
+                title = {
+                    Text(
+                        text = "ETERNIA AI RPG",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                        )
+                    )
+                },
+                colors = MaterialTheme.colorScheme.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
-            FantasyIconButton(
-                onClick = { navController.navigate("settings") },
-                icon = { androidx.compose.material.icons.Icons.Default.Settings }
-            )
-        }
 
-        if (isLoading) {
-            androidx.compose.material3.CircularProgressIndicator(
-                modifier = androidx.compose.foundation.layout.Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(androidx.compose.ui.Alignment.Center)
-                    .padding(FantasySpacing.xl)
-            )
-        } else {
-            // Quick Actions
-            FantasyCard(
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(FantasySpacing.md)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = FantasySpacing.md, top = FantasySpacing.sm)
             ) {
-                Text(text = "Actions rapides", style = FantasyTypography.titleMedium)
-                androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.foundation.layout.Modifier.height(FantasySpacing.md))
-                Row(
-                    modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
-                ) {
-                    FantasyFilledButton(
-                        text = "Nouvelle Persona",
-                        onClick = { navController.navigate("personas/persona_editor") },
-                        leadingIcon = { androidx.compose.material.icons.Icons.Default.PersonAdd },
-                        modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
-                    )
-                    FantasyOutlinedButton(
-                        text = "Nouveau Personnage",
-                        onClick = { navController.navigate("characters/character_editor") },
-                        leadingIcon = { androidx.compose.material.icons.Icons.Default.AutoAwesome },
-                        modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
-                    )
-                    FantasyOutlinedButton(
-                        text = "Nouvelle Aventure",
-                        onClick = { navController.navigate("chat/chat_session/new") },
-                        leadingIcon = { androidx.compose.material.icons.Icons.Default.Chat },
-                        modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
-                    )
-                }
-            }
-
-            // Recent Conversations
-            if (recentConversations.isNotEmpty()) {
-                SectionCard(
-                    title = "Conversations récentes",
-                    onMoreClick = { navController.navigate("chat/chat_list") },
-                    itemCount = recentConversations.size
-                ) {
-                    LazyColumn(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
+                // Quick Actions
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(bottom = FantasySpacing.md),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        ),
+                        shape = MaterialTheme.shapes.medium
                     ) {
-                        items(recentConversations.take(5)) { conversation ->
-                            ConversationCard(conversation = conversation) {
-                                navController.navigate("chat/chat_session/${conversation.id}")
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Recent Personas
-            if (recentPersonas.isNotEmpty()) {
-                SectionCard(
-                    title = "Personas récentes",
-                    onMoreClick = { navController.navigate("personas/persona_list") },
-                    itemCount = recentPersonas.size
-                ) {
-                    Row(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
-                    ) {
-                        recentPersonas.take(4).forEach { persona ->
-                            FantasyCharacterCard(
-                                name = persona.name,
-                                subtitle = persona.description.takeIf { it.isNotBlank() },
-                                rarity = if (persona.isFavorite) ItemRarity.LEGENDARY else ItemRarity.COMMON,
-                                modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = "Actions rapides",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            androidx.compose.foundation.layout.Spacer(
+                                modifier = Modifier.height(FantasySpacing.sm)
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(FantasySpacing.sm)
                             ) {
-                                navController.navigate("personas/persona_detail/${persona.id}")
+                                FantasyOutlinedButton(
+                                    text = "Nouvelle Persona",
+                                    icon = Icons.Default.PersonAdd,
+                                    onClick = onNewPersona,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                FantasyOutlinedButton(
+                                    text = "Nouveau Personnage",
+                                    icon = Icons.Default.AutoAwesome,
+                                    onClick = onNewCharacter,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                FantasyOutlinedButton(
+                                    text = "Nouvelle Aventure",
+                                    icon = Icons.Default.Chat,
+                                    onClick = onNewConversation,
+                                    modifier = Modifier.weight(1f)
+                                )
                             }
                         }
                     }
                 }
-            }
 
-            // Recent Characters
-            if (recentCharacters.isNotEmpty()) {
-                SectionCard(
-                    title = "Personnages récents",
-                    onMoreClick = { navController.navigate("characters/character_list") },
-                    itemCount = recentCharacters.size
-                ) {
-                    Row(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
-                    ) {
-                        recentCharacters.take(4).forEach { character ->
-                            FantasyCharacterCard(
-                                name = character.name,
-                                subtitle = character.description.takeIf { it.isNotBlank() },
-                                rarity = when {
-                                    character.isNsfw -> ItemRarity.EPIC
-                                    character.isFavorite -> ItemRarity.LEGENDARY
-                                    else -> ItemRarity.COMMON
-                                },
-                                modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
+                // Recent Personas
+                item {
+                    if (recentPersonas.isNotEmpty()) {
+                        Column(modifier = Modifier.fillMaxWidth().padding(bottom = FantasySpacing.md)) {
+                            Text(
+                                text = "Personas récentes",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            androidx.compose.foundation.layout.Spacer(
+                                modifier = Modifier.height(FantasySpacing.sm)
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(FantasySpacing.sm)
                             ) {
-                                navController.navigate("characters/character_detail/${character.id}")
+                                recentPersonas.take(4).forEach { personaId ->
+                                    FantasyCharacterCard(
+                                        name = "Persona",
+                                        rarity = com.eternia.ai.rpg.designsystem.components.ItemRarity.COMMON,
+                                        modifier = Modifier.weight(1f),
+                                        onClick = { onPersonaClick(personaId) }
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            // Recent Novels
-            if (recentNovels.isNotEmpty()) {
-                SectionCard(
-                    title = "Romans récents",
-                    onMoreClick = { navController.navigate("reader/novel_list") },
-                    itemCount = recentNovels.size
-                ) {
-                    LazyColumn(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
-                    ) {
-                        items(recentNovels.take(5)) { novel ->
-                            NovelCard(novel = novel) {
-                                navController.navigate("reader/novel_reader/${novel.id}")
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Recent Visual Novels
-            if (recentVisualNovels.isNotEmpty()) {
-                SectionCard(
-                    title = "Visual Novels récents",
-                    onMoreClick = { navController.navigate("visual_novel/vn_list") },
-                    itemCount = recentVisualNovels.size
-                ) {
-                    Row(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
-                    ) {
-                        recentVisualNovels.take(4).forEach { vn ->
-                            FantasyCharacterCard(
-                                name = vn.title,
-                                subtitle = "Visual Novel",
-                                rarity = ItemRarity.RARE,
-                                modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
-                            ) {
-                                navController.navigate("visual_novel/vn_player/${vn.id}")
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Recent Worlds
-            if (recentWorlds.isNotEmpty()) {
-                SectionCard(
-                    title = "Mondes récents",
-                    onMoreClick = { navController.navigate("worlds/world_list") },
-                    itemCount = recentWorlds.size
-                ) {
-                    Row(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(FantasySpacing.sm)
-                    ) {
-                        recentWorlds.take(4).forEach { world ->
-                            FantasyCharacterCard(
-                                name = world.name,
-                                subtitle = world.description.takeIf { it.isNotBlank() },
-                                rarity = ItemRarity.UNCOMMON,
-                                modifier = androidx.compose.foundation.layout.Modifier.weight(1f)
-                            ) {
-                                navController.navigate("worlds/world_detail/${world.id}")
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Empty State
-            if (recentConversations.isEmpty() && recentPersonas.isEmpty() && recentCharacters.isEmpty() &&
-                recentNovels.isEmpty() && recentVisualNovels.isEmpty() && recentWorlds.isEmpty()) {
-                FantasyCard(
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(FantasySpacing.xl),
-                    modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = androidx.compose.foundation.layout.Modifier.fillMaxWidth(),
-                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(FantasySpacing.md)
-                    ) {
-                        androidx.compose.material.icons.Icons.Default.AutoAwesome
-                        Text(
-                            text = "Bienvenue dans ETERNIA AI RPG",
-                            style = FantasyTypography.headlineSmall,
-                            textAlign = androidx.compose.ui.text.TextAlign.Center
-                        )
-                        Text(
-                            text = "Créez votre première persona, personnage ou aventure pour commencer",
-                            style = FantasyTypography.bodyMedium,
-                            textAlign = androidx.compose.ui.text.TextAlign.Center
-                        )
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(FantasySpacing.md)
+                // Empty state
+                item {
+                    if (recentPersonas.isEmpty() && recentConversations.isEmpty()) {
+                        androidx.compose.foundation.layout.Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+                            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
                         ) {
-                            FantasyFilledButton(
-                                text = "Nouvelle Persona",
-                                onClick = { navController.navigate("personas/persona_editor") },
-                                leadingIcon = { androidx.compose.material.icons.Icons.Default.PersonAdd }
-                            )
-                            FantasyOutlinedButton(
-                                text = "Nouveau Personnage",
-                                onClick = { navController.navigate("characters/character_editor") },
-                                leadingIcon = { androidx.compose.material.icons.Icons.Default.AutoAwesome }
-                            )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.AutoAwesome,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(48.dp),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                                androidx.compose.foundation.layout.Spacer(
+                                    modifier = Modifier.height(FantasySpacing.md)
+                                )
+                                Text(
+                                    text = "Bienvenue dans ETERNIA AI RPG",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    textAlign = androidx.compose.ui.text.TextAlign.Center
+                                )
+                                Text(
+                                    text = "Créez votre première persona pour commencer",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textAlign = androidx.compose.ui.text.TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun FantasyOutlinedButton(
+    text: String,
+    icon: androidx.compose.material.icons.Icons.Default,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    androidx.compose.material3.OutlinedButton(
+        onClick = onClick,
+        modifier = modifier,
+        colors = androidx.compose.material3.OutlinedButtonDefaults.outlinedButtonColors(
+            contentColor = MaterialTheme.colorScheme.primary
+        )
+    ) {
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(20.dp))
+            Text(text = text)
         }
     }
 }

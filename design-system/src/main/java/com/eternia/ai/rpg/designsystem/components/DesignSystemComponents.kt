@@ -1,24 +1,31 @@
 package com.eternia.ai.rpg.designsystem.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.FilledButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +37,7 @@ import com.eternia.ai.rpg.designsystem.theme.FantasySpacing
 @Composable
 fun FantasyCard(
     modifier: Modifier = Modifier,
+    elevation: Dp = 1.dp,
     contentPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues(0.dp),
     content: @Composable () -> Unit
 ) {
@@ -39,6 +47,7 @@ fun FantasyCard(
             containerColor = MaterialTheme.colorScheme.surface
         ),
         shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(elevation),
         contentPadding = contentPadding
     ) {
         Column(
@@ -125,7 +134,7 @@ fun SectionCard(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = title,
@@ -156,7 +165,7 @@ fun FantasyCharacterCard(
     Card(
         modifier = modifier
             .clipToBounds()
-            .size(120.dp, 140.dp),
+            .size(110.dp, 150.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
@@ -168,23 +177,31 @@ fun FantasyCharacterCard(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            androidx.compose.material3.Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = null,
+                modifier = Modifier.size(40.dp),
+                tint = rarity.color
+            )
             Text(
                 text = name,
                 style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2
+                maxLines = 2,
+                textAlign = androidx.compose.ui.text.TextAlign.Center
             )
             subtitle?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 12.sp
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontSize = 10.sp
                     ),
-                    maxLines = 1
+                    maxLines = 1,
+                    textAlign = androidx.compose.ui.text.TextAlign.Center
                 )
             }
             Text(
                 text = rarity.label,
-                style = MaterialTheme.typography.bodyMedium.copy(
+                style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 10.sp,
                     color = rarity.color
                 )
@@ -195,7 +212,9 @@ fun FantasyCharacterCard(
 
 @Composable
 fun ConversationCard(
-    conversation: Any,
+    title: String,
+    lastMessage: String? = null,
+    timestamp: String? = null,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
@@ -209,9 +228,9 @@ fun ConversationCard(
     ) {
         androidx.compose.foundation.layout.Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            androidx.compose.material3.Icon(
+            Icon(
                 imageVector = Icons.Default.Chat,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
@@ -222,53 +241,26 @@ fun ConversationCard(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = (conversation as? com.eternia.ai.rpg.database.entity.ConversationEntity)?.title ?: "Conversation",
+                    text = title,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Text(
-                    text = (conversation as? com.eternia.ai.rpg.database.entity.ConversationEntity)?.lastMessage ?: "",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    maxLines = 1
-                )
+                lastMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        ),
+                        maxLines = 1
+                    )
+                }
             }
-        }
-    }
-}
-
-@Composable
-fun NovelCard(
-    novel: Any,
-    onClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        shape = MaterialTheme.shapes.medium,
-        onClick = onClick
-    ) {
-        androidx.compose.foundation.layout.Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-        ) {
-            androidx.compose.material3.Icon(
-                imageVector = Icons.Default.Book,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+            timestamp?.let {
                 Text(
-                    text = (novel as? com.eternia.ai.rpg.database.entity.NovelEntity)?.title ?: "Roman",
-                    style = MaterialTheme.typography.bodyMedium
+                    text = it,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 )
             }
         }
@@ -284,4 +276,82 @@ enum class ItemRarity(
     RARE("Rare", Color(0xFF2196F3)),
     EPIC("Épique", Color(0xFF9C27B0)),
     LEGENDARY("Légendaire", Color(0xFFFF9800))
+}
+
+@Composable
+fun EmptyState(
+    icon: @Composable () -> Unit,
+    title: String,
+    subtitle: String?,
+    actionText: String?,
+    onActionClick: (() -> Unit)?,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        icon()
+        androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(FantasySpacing.md))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = androidx.compose.ui.text.TextAlign.Center
+        )
+        subtitle?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = androidx.compose.ui.text.TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        if (actionText != null && onActionClick != null) {
+            androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(FantasySpacing.lg))
+            FantasyFilledButton(
+                text = actionText,
+                onClick = onActionClick,
+                modifier = Modifier.padding(FantasySpacing.md)
+            )
+        }
+    }
+}
+
+@Composable
+fun FantasyScaffold(
+    title: String,
+    onMenuClick: (() -> Unit)? = null,
+    content: @Composable () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = title, style = MaterialTheme.typography.headlineSmall)
+                },
+                actions = {
+                    if (onMenuClick != null) {
+                        IconButton(onClick = onMenuClick) {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                },
+                colors = MaterialTheme.colorScheme.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            content()
+        }
+    }
 }

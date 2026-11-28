@@ -12,7 +12,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.eternia.ai.rpg.core.Constants
 import com.eternia.ai.rpg.designsystem.theme.dark.EterniaDarkColorScheme
 import com.eternia.ai.rpg.designsystem.theme.light.EterniaLightColorScheme
 
@@ -45,6 +44,10 @@ fun EterniaTheme(
 }
 
 val FantasyTypography = androidx.compose.material3.Typography(
+    displayLarge = androidx.compose.material3.TextStyle(
+        fontSize = 32.sp,
+        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+    ),
     headlineMedium = androidx.compose.material3.TextStyle(
         fontSize = 24.sp,
         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
@@ -57,8 +60,18 @@ val FantasyTypography = androidx.compose.material3.Typography(
         fontSize = 16.sp,
         fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
     ),
+    bodyLarge = androidx.compose.material3.TextStyle(
+        fontSize = 16.sp
+    ),
     bodyMedium = androidx.compose.material3.TextStyle(
         fontSize = 14.sp
+    ),
+    bodySmall = androidx.compose.material3.TextStyle(
+        fontSize = 12.sp
+    ),
+    labelLarge = androidx.compose.material3.TextStyle(
+        fontSize = 14.sp,
+        fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
     )
 )
 
@@ -68,6 +81,7 @@ val FantasySpacing = object {
     val md = 16.dp
     val lg = 24.dp
     val xl = 32.dp
+    val xxl = 48.dp
 }
 
 val FantasyShapes = androidx.compose.material3.Shapes(
