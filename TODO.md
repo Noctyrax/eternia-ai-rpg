@@ -1,63 +1,59 @@
 # TODO — ETERNIA AI RPG
 
-## Étape 4 — Personas et personnages (en cours)
-
-- [ ] Implémenter PersonaManager : CRUD complet, duplication, archivage, sélection par conversation
-- [ ] Implémenter CharacterManager : CRUD complet, duplication, versions
-- [ ] Gestion des images/avatars
-- [ ] Variables de roleplay {{user}} compatibles
-- [ ] Aperçu du prompt injecté pour Persona
-
-## Étape 5 — Chat et fournisseurs IA (priorité)
-
-- [ ] Implémenter AiProviderManager (abstraction multi-fournisseurs)
-- [ ] Implémenter fournisseur Gemini
-- [ ] Implémenter fournisseur DeepSeek
-- [ ] Implémenter fournisseur OpenAI
-- [ ] Implémenter fournisseur Anthropic
-- [ ] Implémenter fournisseur Mistral
-- [ ] Implémenter fournisseur OpenRouter
-- [ ] Implémenter fournisseur Groq
-- [ ] Streaming de réponses
-- [ ] Gestion des erreurs API
-- [ ] Prompt Inspector
-- [ ] Test de connexion
-- [ ] Gestion des quotas et limites de débit
-
-## Étape 6 — Import/export
+## Étape 6 — Import/export (priorité immédiate)
 
 - [ ] Import JSON, JSONL, TXT, Markdown, ZIP
 - [ ] Export conversations, personnages, données RPG
-- [ ] Rapport d'importation
-- [ ] Sauvegardes automatiques
+- [ ] Rapport d'importation (données importées, ignorées, inconnues, avertissements)
+- [ ] Sauvegardes automatiques facultatives
+- [ ] Restauration complète avec contrôle d'intégrité
 
 ## Étape 7 — Compatibilité SillyTavern
 
 - [ ] Character Card V1, V2, V3 (dans CharacterCardParser)
-- [ ] PNG avec métadonnées
+- [ ] PNG avec métadonnées embarquées
 - [ ] CHARX, Worldbooks, Lorebooks
-- [ ] Prompt Inspector
+- [ ] Prompt Inspector (visualiser le contexte envoyé au modèle)
 - [ ] Macros {{user}}, {{char}}, {{random}}, {{getvar}}, {{setvar}}
+- [ ] Ne jamais exécuter automatiquement un script importé
 
 ## Étape 3 — Données locales (compléter)
 
 - [ ] Implémenter PreferencesManager avec DataStore chiffré
-- [ ] Implémenter KeyManager avec Android Keystore
+- [ ] Implémenter KeyManager avec Android Keystore (AES-256-GCM)
+- [ ] Connecter les managers (PersonaManager, CharacterManager) à Room au lieu de listes en mémoire
+
+## Étape 4 — Personas et personnages
+
+- [ ] CRUD complet connecté à Room
+- [ ] Gestion des images/avatars
+- [ ] Duplication et archivage de Personas
+- [ ] Variables de roleplay {{user}} compatibles
+- [ ] Aperçu du prompt injecté pour Persona
+
+## Étape 5 — Chat et fournisseurs IA
+
+- [ ] Connecter AiProviderManager aux écrans de chat
+- [ ] Streaming de réponses réel (SSE pour OpenAI/Anthropic, etc.)
+- [ ] Gestion des erreurs API (quota, rate limit, timeout)
+- [ ] Prompt Inspector
+- [ ] Test de connexion depuis les écrans Settings
+- [ ] Profils distincts : Roleplay, Narration, Résumé, Traduction, Analyse
 
 ## Étape 8 — Mémoire
 
 - [ ] Résumés de conversation, chapitre, arc
 - [ ] Récolte de faits (événements, relations, préférences, secrets)
-- [ ] Recherche contextuelle
-- [ ] Packs de contexte
+- [ ] Recherche contextuelle des souvenirs pertinents
+- [ ] Packs de contexte configurables par type
 
 ## Étape 9 — Moteur RPG
 
 - [ ] Statistiques, progression, montée de niveau
-- [ ] Inventaire complet
+- [ ] Inventaire complet (armes, armures, potions, objets de quête)
 - [ ] Compétences (actives/passives, arbres, cooldowns)
 - [ ] Quêtes (principales, secondaires, quotidiennes)
-- [ ] Combat (jets d'attaque/défense, coups critiques)
+- [ ] Combat (jets d'attaque/défense, coups critiques, types de dégâts)
 - [ ] PNJ, marchands, factions, réputation
 - [ ] Monde (localisations, découverte, voyages)
 
@@ -85,7 +81,7 @@
 - [ ] Tests unitaires, d'intégration, UI
 - [ ] Audit des permissions Android
 - [ ] Audit des secrets (Android Keystore)
-- [ ] Vérification des imports (ZIP, scripts malveillants)
+- [ ] Vérification des imports (ZIP, scripts malveillants, traversées de chemins)
 
 ## Étape 14 — APK Release
 
