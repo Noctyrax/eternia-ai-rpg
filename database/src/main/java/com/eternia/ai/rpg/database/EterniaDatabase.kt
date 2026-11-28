@@ -7,22 +7,34 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.migration.Migration
+import com.eternia.ai.rpg.database.dao.ChapterDao
 import com.eternia.ai.rpg.database.dao.CharacterDao
+import com.eternia.ai.rpg.database.dao.CompanionDao
 import com.eternia.ai.rpg.database.dao.ConversationDao
 import com.eternia.ai.rpg.database.dao.LorebookDao
 import com.eternia.ai.rpg.database.dao.LorebookEntryDao
+import com.eternia.ai.rpg.database.dao.MemoryDao
 import com.eternia.ai.rpg.database.dao.MessageDao
+import com.eternia.ai.rpg.database.dao.NovelDao
 import com.eternia.ai.rpg.database.dao.PersonaDao
 import com.eternia.ai.rpg.database.dao.RpgDao
+import com.eternia.ai.rpg.database.dao.VisualNovelDao
 import com.eternia.ai.rpg.database.dao.WorldDao
+import com.eternia.ai.rpg.database.entity.BookmarkEntity
+import com.eternia.ai.rpg.database.entity.BranchEntity
 import com.eternia.ai.rpg.database.entity.CharacterEntity
+import com.eternia.ai.rpg.database.entity.CompanionEntity
 import com.eternia.ai.rpg.database.entity.ConversationEntity
+import com.eternia.ai.rpg.database.entity.ChapterEntity
 import com.eternia.ai.rpg.database.entity.InventoryItemEntity
 import com.eternia.ai.rpg.database.entity.LorebookEntity
 import com.eternia.ai.rpg.database.entity.LorebookEntryEntity
 import com.eternia.ai.rpg.database.entity.MessageEntity
+import com.eternia.ai.rpg.database.entity.MemorySummaryEntity
+import com.eternia.ai.rpg.database.entity.NovelEntity
 import com.eternia.ai.rpg.database.entity.PersonaEntity
 import com.eternia.ai.rpg.database.entity.RpgCharacterEntity
+import com.eternia.ai.rpg.database.entity.VisualNovelEntity
 import com.eternia.ai.rpg.database.entity.WorldEntity
 import com.eternia.ai.rpg.core.Constants
 
@@ -36,9 +48,16 @@ import com.eternia.ai.rpg.core.Constants
         LorebookEntity::class,
         LorebookEntryEntity::class,
         RpgCharacterEntity::class,
-        InventoryItemEntity::class
+        InventoryItemEntity::class,
+        NovelEntity::class,
+        ChapterEntity::class,
+        BranchEntity::class,
+        BookmarkEntity::class,
+        VisualNovelEntity::class,
+        CompanionEntity::class,
+        MemorySummaryEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -52,6 +71,11 @@ abstract class EterniaDatabase : RoomDatabase() {
     abstract fun lorebookDao(): LorebookDao
     abstract fun lorebookEntryDao(): LorebookEntryDao
     abstract fun rpgDao(): RpgDao
+    abstract fun novelDao(): NovelDao
+    abstract fun chapterDao(): ChapterDao
+    abstract fun visualNovelDao(): VisualNovelDao
+    abstract fun companionDao(): CompanionDao
+    abstract fun memoryDao(): MemoryDao
 
     companion object {
         @Volatile
@@ -64,7 +88,7 @@ abstract class EterniaDatabase : RoomDatabase() {
                     EterniaDatabase::class.java,
                     Constants.DATABASE_NAME
                 )
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
@@ -78,6 +102,18 @@ abstract class EterniaDatabase : RoomDatabase() {
                 database.execSQL("CREATE TABLE IF NOT EXISTS lorebook_entries (id TEXT PRIMARY KEY, lorebook_id TEXT NOT NULL, key TEXT NOT NULL, content TEXT NOT NULL, priority INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, FOREIGN KEY(lorebook_id) REFERENCES lorebooks(id) ON DELETE CASCADE)")
                 database.execSQL("CREATE TABLE IF NOT EXISTS rpg_characters (id TEXT PRIMARY KEY, name TEXT NOT NULL, level INTEGER NOT NULL DEFAULT 1, experience INTEGER NOT NULL DEFAULT 0, hp INTEGER NOT NULL DEFAULT 10, max_hp INTEGER NOT NULL DEFAULT 10, mana INTEGER NOT NULL DEFAULT 5, max_mana INTEGER NOT NULL DEFAULT 5, stamina INTEGER NOT NULL DEFAULT 5, max_stamina INTEGER NOT NULL DEFAULT 5, strength INTEGER NOT NULL DEFAULT 1, dexterity INTEGER NOT NULL DEFAULT 1, constitution INTEGER NOT NULL DEFAULT 1, intelligence INTEGER NOT NULL DEFAULT 1, wisdom INTEGER NOT NULL DEFAULT 1, charisma INTEGER NOT NULL DEFAULT 1, luck INTEGER NOT NULL DEFAULT 1, attribute_points INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)")
                 database.execSQL("CREATE TABLE IF NOT EXISTS inventory_items (id TEXT PRIMARY KEY, character_id TEXT NOT NULL, name TEXT NOT NULL, description TEXT, rarity TEXT NOT NULL DEFAULT 'common', quantity INTEGER NOT NULL DEFAULT 1, weight REAL NOT NULL DEFAULT 0.0, equipped INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, FOREIGN KEY(character_id) REFERENCES rpg_characters(id) ON DELETE CASCADE)")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE IF NOT EXISTS novels (id TEXT PRIMARY KEY, title TEXT NOT NULL, author TEXT, content TEXT, progress REAL NOT NULL DEFAULT 0.0, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS chapters (id TEXT PRIMARY KEY, novel_id TEXT NOT NULL, title TEXT NOT NULL, content TEXT, order_index INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, FOREIGN KEY(novel_id) REFERENCES novels(id) ON DELETE CASCADE)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS branches (id TEXT PRIMARY KEY, novel_id TEXT NOT NULL, name TEXT NOT NULL, description TEXT, created_at INTEGER NOT NULL, FOREIGN KEY(novel_id) REFERENCES novels(id) ON DELETE CASCADE)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS bookmarks (id TEXT PRIMARY KEY, novel_id TEXT NOT NULL, chapter_id TEXT, position INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, FOREIGN KEY(novel_id) REFERENCES novels(id) ON DELETE CASCADE)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS visual_novels (id TEXT PRIMARY KEY, title TEXT NOT NULL, description TEXT, cover_image_url TEXT, progress REAL NOT NULL DEFAULT 0.0, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS companions (id TEXT PRIMARY KEY, name TEXT NOT NULL, description TEXT, personality TEXT, affection_level INTEGER NOT NULL DEFAULT 0, image_url TEXT, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS memory_summaries (id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL, summary TEXT NOT NULL, type TEXT NOT NULL DEFAULT 'conversation', created_at INTEGER NOT NULL)")
             }
         }
     }

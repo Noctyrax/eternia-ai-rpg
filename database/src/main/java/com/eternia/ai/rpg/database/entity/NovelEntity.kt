@@ -10,6 +10,7 @@ data class NovelEntity(
     @PrimaryKey val id: String,
     val title: String,
     val author: String? = null,
+    val content: String? = null,
     val progress: Float = 0f,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
