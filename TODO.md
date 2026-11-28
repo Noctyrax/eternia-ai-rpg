@@ -1,41 +1,20 @@
 # TODO — ETERNIA AI RPG
 
-## Étape 2 — UX/UI et navigation (en cours)
-
-- [ ] Remplacer les écrans "À venir" par de vraies implémentations Compose
-- [ ] Implémenter HomeScreen avec données réelles (liste des conversations, personas, etc.)
-- [ ] Créer PersonaListScreen avec liste réelle depuis Room
-- [ ] Créer PersonaEditorScreen avec formulaire complet (nom, description, avatar, stats, etc.)
-- [ ] Créer PersonaDetailScreen avec aperçu du prompt injecté
-- [ ] Créer CharacterListScreen et CharacterEditorScreen
-- [ ] Créer AppNavHost fonctionnel avec navigation type-safe
-- [ ] Implémenter EterniaTheme complet (thème sombre/clair, typographie fantasy)
-- [ ] Créer les composants UI réutilisables (FantasyCard, SectionCard, etc.)
-
-## Étape 3 — Données locales
-
-- [ ] Compléter EterniaDatabase avec toutes les entités du cahier des charges
-- [ ] Créer tous les DAO manquants (LorebookDao, RpgDao, ReaderDao, etc.)
-- [ ] Ajouter les migrations Room (version 1 → 2, etc.)
-- [ ] Implémenter PreferencesManager avec DataStore chiffré
-- [ ] Implémenter KeyManager avec Android Keystore
-
-## Étape 4 — Personas et personnages
-
-- [ ] Implémenter PersonaManager (CRUD complet)
-- [ ] Implémenter CharacterManager (CRUD complet)
-- [ ] Gestion des images/avatars
-- [ ] Duplication et archivage de Personas
-- [ ] Sélection de Persona par conversation
-
-## Étape 5 — Chat et fournisseurs IA
+## Étape 5 — Chat et fournisseurs IA (priorité immédiate)
 
 - [ ] Implémenter AiProviderManager (abstraction multi-fournisseurs)
-- [ ] Implémenter Gemini, DeepSeek, OpenAI, Anthropic, Mistral, OpenRouter, Groq
+- [ ] Implémenter fournisseur Gemini
+- [ ] Implémenter fournisseur DeepSeek
+- [ ] Implémenter fournisseur OpenAI
+- [ ] Implémenter fournisseur Anthropic
+- [ ] Implémenter fournisseur Mistral
+- [ ] Implémenter fournisseur OpenRouter
+- [ ] Implémenter fournisseur Groq
 - [ ] Streaming de réponses
 - [ ] Gestion des erreurs API
 - [ ] Prompt Inspector
 - [ ] Test de connexion
+- [ ] Gestion des quotas et limites de débit
 
 ## Étape 6 — Import/export
 
@@ -46,27 +25,40 @@
 
 ## Étape 7 — Compatibilité SillyTavern
 
-- [ ] Character Card V1, V2, V3
+- [ ] Character Card V1, V2, V3 (dans CharacterCardParser)
 - [ ] PNG avec métadonnées
 - [ ] CHARX, Worldbooks, Lorebooks
 - [ ] Prompt Inspector
 - [ ] Macros {{user}}, {{char}}, {{random}}, {{getvar}}, {{setvar}}
 
+## Étape 3 — Données locales (compléter)
+
+- [ ] Ajouter les DAO manquants (ReaderDao, VisualNovelDao, CompanionDao, MediaDao, SettingsDao, ImportExportDao)
+- [ ] Ajouter les entités manquantes (NovelEntity, VisualNovelEntity, etc.)
+- [ ] Implémenter PreferencesManager avec DataStore chiffré
+- [ ] Implémenter KeyManager avec Android Keystore
+
+## Étape 4 — Personas et personnages
+
+- [ ] CRUD complet dans PersonaManager
+- [ ] CRUD complet dans CharacterManager
+- [ ] Gestion des images/avatars
+- [ ] Duplication et archivage de Personas
+
 ## Étape 8 — Mémoire
 
 - [ ] Résumés de conversation, chapitre, arc
 - [ ] Récolte de faits (événements, relations, préférences, secrets)
-- [ ] Recherche sémantique (préparé)
+- [ ] Recherche contextuelle
 - [ ] Packs de contexte
 
 ## Étape 9 — Moteur RPG
 
-- [ ] Statistiques (Force, Dextérité, Constitution, Intelligence, Sagesse, Charisme, Chance)
-- [ ] Santé/Mana/Endurance avec régénération
-- [ ] Inventaire (objets, équipement, rareté)
+- [ ] Statistiques, progression, montée de niveau
+- [ ] Inventaire complet
 - [ ] Compétences (actives/passives, arbres, cooldowns)
 - [ ] Quêtes (principales, secondaires, quotidiennes)
-- [ ] Combat (jets d'attaque/défense, coups critiques, types de dégâts)
+- [ ] Combat (jets d'attaque/défense, coups critiques)
 - [ ] PNJ, marchands, factions, réputation
 - [ ] Monde (localisations, découverte, voyages)
 
